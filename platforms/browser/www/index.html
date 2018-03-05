@@ -64,6 +64,7 @@
 	// device APIs are available
 
 			function onDeviceReady() {
+			alert('hola');
                 var options = new ContactFindOptions();
 				var telefono=document.getElementById("number").value;
 				var fields = ["displayName", "name"];
@@ -79,6 +80,7 @@
             // onSuccess: Get a snapshot of the current contacts
             function onSuccess(contacts) {
 			console.log("Contactos = " + contacts.length);
+			alert('cantidad:'+contacts.length);
                 var table = document.getElementById("myTable");
 				for (var i = 0; i < contacts.length; i++) {
                     console.log("Display Name = " + contacts[i].displayName);
