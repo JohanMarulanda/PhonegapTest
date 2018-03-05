@@ -46,14 +46,55 @@
     <div class="app">
         <h1>PhoneGap</h1>
         <div id="deviceready" class="blink">
-            <p class="event listening">Connecting to Device</p>
+            <p class="event listening">Connecting to Device royer</p>
             <p class="event received">Device is Ready</p>
         </div>
+		<table id='myTable' border='1'>
+		<tr>
+		<td>displayName</td>
+		<td>name</td>
+		</tr>
+		</table>
+		<button type="button" id="buscarContactos" onclick="javascript:onDeviceReady();">Contactos</button>
+		<input type="text" id="number"/>
     </div>
     <script type="text/javascript" src="cordova.js"></script>
     <script type="text/javascript" src="js/index.js"></script>
     <script type="text/javascript">
-        app.initialize();
+	// device APIs are available
+
+			function onDeviceReady() {
+                var options = new ContactFindOptions();
+				var telefono=document.getElementById("number").value;
+				var fields = ["displayName", "name"];
+				if(telefono.length>0){
+				options.filter = telefono;
+				fields = ["displayName", "phoneNumbers"];
+				//options.hasPhoneNumber =true;
+				//options.filter = "maria";
+				}
+				options.multiple=true;
+                navigator.contacts.find(fields, onSuccess, onError, options);
+            }
+            // onSuccess: Get a snapshot of the current contacts
+            function onSuccess(contacts) {
+			console.log("Contactos = " + contacts.length);
+                var table = document.getElementById("myTable");
+				for (var i = 0; i < contacts.length; i++) {
+                    console.log("Display Name = " + contacts[i].displayName);
+					var row = table.insertRow(0);
+					var cell1 = row.insertCell(0);
+					var cell2 = row.insertCell(1);
+					cell1.innerHTML = "Name";
+					cell2.innerHTML = contacts[i].displayName;
+                }
+            }
+            // onError: Failed to get the contacts
+            function onError(contactError) {
+                alert('onError!');
+            }
+
+	        app.initialize();
     </script>
 </body>
 
